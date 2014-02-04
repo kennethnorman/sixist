@@ -1,3 +1,10 @@
+// transcriptionsHead.js
+
+// Emoty
+
+
+
+
 // alert("Hello world");
 /*
 var transcriptionList = {};
