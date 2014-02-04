@@ -1,5 +1,8 @@
 // transcriptionsBody.js
 
+function replaceAll(find, replace, str) {
+  return str.replace(new RegExp(find, 'g'), replace);
+}
 
 var list = document.getElementById("transcriptionlist");
 /*
@@ -37,13 +40,16 @@ xmlhttp.open("GET", "list.txt", true);
 
 xmlhttp.onreadystatechange = function () {
     if (xmlhttp.readyState == 4 && (xmlhttp.status == 200 || xmlhttp.status == 0)) {
-        var SongList = xmlhttp.responseText.split(/\r\n/);
+        var SongList = xmlhttp.responseText.split(/\n/);
         var SongListLength = SongList.length;
         for (var i = 0; i < SongListLength; i++) {
-            var Line = SongList[i].split(/\\/);
+            var splitLine = SongList[i].split(/Scores\\/);
+            var Line = splitLine[1];
+            Line = Line.split(/\\/);
             var song;
             if (Line.length == 2) {
                 var songname= Line[1].replace(Line[0], "");
+                songname= replaceAll("_", " ", songname);
                 song = Line[0].trim() + " : " + songname.trim();
                 list.appendChild(document.createTextNode(song));
                 list.appendChild(document.createElement("br"));
