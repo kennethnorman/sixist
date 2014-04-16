@@ -1,74 +1,115 @@
-hr 
-{
-	color:sienna;
+html {
+	background: #181027; 
 }
 
-a:link {color: #bfbfff}
-a:visited {color: #afafff}
-a:hover 
-{
-	color: #3f3fef;
-	background: #ffffff;
+#s-header {
+    font: normal 2.0em Century Gothic;
+    display: block;
+    text-align: center; 
+	color: #D8C0C5;
 }
 
-p
-{
-	font-family:"Verdana";
-	font-size:large;
-	//text-align:right;
+#s-navmenu {
+    font: normal 1.0em Century Gothic;
+    padding: 0px; 
+}
+#s-navmenu li {
+    float:left; 
+}
+#s-navmenu li a b {
+    line-height:4em; 
+    padding:0.5em 1em 1em 0.5em; 
+    color: #3849a1;
+    cursor:pointer;
+    text-decoration:none;
 }
 
-body 
-{
-	color:lightblue;
-	background-color:black
+#s-navmenu a:hover b:hover {
+    color: #5859C1;
 }
 
-th
+.s-about #s-navmenu #about a b, 
+.s-transcriptions #s-navmenu #transcriptions a b, 
+.s-index #s-navmenu #home a b
 {
-	text-align:center;
-	font-family:"Verdana";
-	font-size:large;
+    color: #7879E1;
+    width:20%;
 }
 
-th.Links
-{
-	text-align:center;
-	font-family:"Verdana";
-	font-size:large;
+
+#s-body { 
+    width: 96%;
+    min-width: 190px;
+    //max-width: 800px;
+	font-family : Century Gothic;
+    float : left;
+    margin-left: 2%;
+    margin-right: 2%;
 }
 
-td.TDL
-{
-	text-align:left;
-	font-family:"Verdana";
-	font-size:normal;
+#s-bodytext1{ 
+	font-size: 1.0em;
+	color: #D8C0C5;
+    margin-left: 2%;
+    padding:10px 10px 10px 10px; 
 }
 
-td.TDC
-{
-	text-align:center;
+
+#s-bodytext1 a, a:link { 
+    text-decoration:none;
+	color: #D8C0C5;
 }
-td.TDCImage
-{
-	text-align:center;
-	background-image:url("Images/strings1.jpg");
-	background-repeat:no-repeat;
-	background-position:center;
+#s-bodytext1 a:hover, a:focus{ 
+	color: #F1CAAD;
 }
 
-td.TDR
-{
-	text-align:right;
-	font-family:"Verdana";
-	font-size:normal;
+#s-sidebar { 
+    //background: #0000ff; 
 }
 
-p.copyrighttext
-{
-	color:#f00d1e;
-	font-size:small;
-	font-family:"Verdana";
+#s-sidebar img { 
+	height : auto;
+	max-width : 50%;
+    float : right;
 }
 
+#s-footerblockouter { 
+	background: #585067; 
+	font-family : Century Gothic;
+	width: 100%;
+}
+
+#s-footerblock, #s-infofooter { 
+	font-size: 1.0em;
+	background: #585067; 
+    margin-left: 2%;
+    padding:10px 10px 10px 10px; 
+}
+#s-footerblock h3 { 
+	font-size: 1.6em;
+	color: #D8C0C5;
+}
+#s-footerblock  p { 
+	font-size: 1.2em;
+	color: #D8C0C5;
+}
+#s-footerblock a, a:link { 
+    text-decoration:none;
+	color: #D8C0C5;
+}
+#s-footerblock a:hover, a:focus{ 
+	color: #F1CAAD;
+}
+
+#s-infofooter { 
+    text-align: center; 
+}
+
+#s-infofooter a, a:link { 
+    text-decoration:none;
+	color: #D8C0C5;
+}
+#s-infofooter a:hover, a:focus { 
+	color: #F1CAAD;
+}
 

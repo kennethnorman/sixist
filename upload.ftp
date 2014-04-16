@@ -1,11 +1,10 @@
 open ftp.sixist.co.uk
 user
 pass
+prompt i
+bin
 cd public_html
-put jquery-2.1.0.js
-put jquery-2.1.0.min.js
-put sixistLibrary.js
-put transcriptions.html
-put transcriptionsBody.js
-put transcriptionsHead.js
+mput *.html
+mput *.css
+mput *.js
 bye
