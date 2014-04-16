@@ -2,7 +2,10 @@
 
 var list = document.getElementById("transcriptionlist");
 var listMsg = document.getElementById("transcriptionlistMsg");
+var totd = document.getElementById("totd");
+var totdMsg = document.getElementById("totdMsg");
 $("transcriptionlistMsg").show();
+$("totdMsg").show();
 
 // Get the song list from the file list.txt
 var xmlhttp = sixistLibrary.GetXMLHTTPRequest();
@@ -20,8 +23,14 @@ xmlhttp.onreadystatechange = function () {
 
         listMsg.innerText = "";
         $("transcriptionlistMsg").hide();
+        totdMsg.innerText = "";
+        $("totdMsg").hide();
 
         xmlSongList = xmlhttp.responseXML;
+
+	var SongArrayIndex = 0;
+	var SongArray = new Array();
+	var FilenameArray = new Array();
 
         var xmlDoc = $.parseXML(xmlhttp.responseText), 
             xml=$(xmlDoc),
@@ -29,12 +38,31 @@ xmlhttp.onreadystatechange = function () {
         $.each(songs.find("Song"), function(i, el) {
             var song = $(el),
                 artist = song.find("Artist").text(), 
-                track = song.find("Track").text();
+                track = song.find("Track").text(),
+                filename = song.find("Filename").text()
+                ;
 
             songText = artist.trim() + " : " + track.trim();
             list.appendChild(document.createTextNode(songText));
             list.appendChild(document.createElement("br"));
+            
+       	    FilenameArray[SongArrayIndex] = filename;
+       	    SongArray[SongArrayIndex] = songText;
+       	    ++SongArrayIndex;
         });
+
+	// TOTD
+	when = new Date();
+	Math.seedrandom(when.toLocaleDateString());
+	var randomSongIndex= Math.floor((Math.random()*SongArrayIndex)+1);
+	var a = document.createElement('a');
+	var linkText = document.createTextNode(SongArray[randomSongIndex]);
+	a.appendChild(linkText);
+	a.title = "Track of the day, " + when.toLocaleDateString();
+	a.href = "download/scores/" + FilenameArray[randomSongIndex];
+	totd.appendChild(a);
+	        
+        totd.appendChild(document.createElement("br"));
 
     }
     else if (xmlhttp.readyState == 4) {
