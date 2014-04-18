@@ -52,8 +52,9 @@ xmlhttp.onreadystatechange = function () {
         });
 
 	// TOTD
+
 	// Server side version.
-	$.get("http://sixist.co.uk/cgi-bin/stime.pl", function(data) {
+	$.get("http://www.sixist.co.uk/cgi-bin/stime.pl?"+$.now(), function(data) {
 		Math.seedrandom(data);
 		var randomSongIndex= Math.floor((Math.random()*SongArrayIndex)+1);
 		var a = document.createElement('a');
@@ -64,8 +65,9 @@ xmlhttp.onreadystatechange = function () {
 		totd.appendChild(a);
 		        
 	        totd.appendChild(document.createElement("br"));
-	});	
-	/* Client side version.
+	});
+
+	/*	
 	when = new Date();
 	Math.seedrandom(when.toLocaleDateString());
 	var randomSongIndex= Math.floor((Math.random()*SongArrayIndex)+1);
@@ -76,9 +78,8 @@ xmlhttp.onreadystatechange = function () {
 	a.href = "download/scores/" + FilenameArray[randomSongIndex];
 	totd.appendChild(a);
 	        
-        totd.appendChild(document.createElement("br"));
-        */
-
+       totd.appendChild(document.createElement("br"));
+	*/	
     }
     else if (xmlhttp.readyState == 4) {
         listMsg.innerText = "Unable to process list";
@@ -88,5 +89,4 @@ xmlhttp.onreadystatechange = function () {
     }
 }
 xmlhttp.send();
-
 
