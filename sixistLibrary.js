@@ -7,7 +7,10 @@ var sixistLibrary = {};
 */
 sixistLibrary.GetXMLHTTPRequest = function () {
     try {
-        if (location.protocol == "file:") {
+        var is_chrome = window.chrome;
+		
+		if (!window.chrome && 
+		    location.protocol == "file:") {
             throw (e);
         }
         return new XMLHttpRequest();
@@ -36,5 +39,5 @@ sixistLibrary.GetXMLHTTPRequest = function () {
 */
 sixistLibrary.replaceAll = function (find, replace, str) {
     return str.replace(new RegExp(find, 'g'), replace);
-}
+};
 
