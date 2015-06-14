@@ -2,6 +2,7 @@
 
 var list = document.getElementById("transcriptionlist");
 var listMsg = document.getElementById("transcriptionlistMsg");
+var listDate = document.getElementById("transcriptionlistDate");
 var totd = document.getElementById("totd");
 var totdMsg = document.getElementById("totdMsg");
 $("transcriptionlistMsg").show();
@@ -21,78 +22,87 @@ xmlhttp.onreadystatechange = function () {
 
     if (xmlhttp.readyState == 4 && (xmlhttp.status == 200 || xmlhttp.status == 0)) {
 
-        listMsg.innerText = "";
+		var xmlhttp2 = sixistLibrary.GetXMLHTTPRequest();
+		xmlhttp2.open("GET", "songupd.xml", false);
+		xmlhttp2.send(null);
+		var xmlDates = $.parseXML(xmlhttp2.responseText), 
+			xml=$(xmlDates),
+			lastUpdated = xml.find("LastUpdated");
+		listDate.appendChild(document.createTextNode(lastUpdated[0].textContent));
+
+
+		listMsg.innerText = "";
         $("transcriptionlistMsg").hide();
         totdMsg.innerText = "";
         $("totdMsg").hide();
 
         xmlSongList = xmlhttp.responseXML;
 
-	var SongArrayIndex = 0;
-	var SongArray = new Array();
-	var FilenameArray = new Array();
+		var SongArrayIndex = 0;
+		var SongArray = new Array();
+		var FilenameArray = new Array();
 
-	var xmlDoc = $.parseXML(xmlhttp.responseText), 
-		xml=$(xmlDoc),
-		songs = xml.find("SongList");
-	$.each(songs.find("Song"), function(i, el) {
-		var song = $(el),
-			artist = song.find("Artist").text(), 
-			track = song.find("Track").text(),
-			filename = song.find("Filename").text()
-			;
+		var xmlDoc = $.parseXML(xmlhttp.responseText), 
+			xml=$(xmlDoc),
+			songs = xml.find("SongList");
+		$.each(songs.find("Song"), function(i, el) {
+			var song = $(el),
+				artist = song.find("Artist").text(), 
+				track = song.find("Track").text(),
+				filename = song.find("Filename").text()
+				;
 
-		songText = artist.trim() + " : " + track.trim();
-		list.appendChild(document.createTextNode(songText));
-		list.appendChild(document.createElement("br"));
+			songText = artist.trim() + " : " + track.trim();
+			list.appendChild(document.createTextNode(songText));
+			list.appendChild(document.createElement("br"));
+			
+			FilenameArray[SongArrayIndex] = filename;
+			SongArray[SongArrayIndex] = songText;
+			++SongArrayIndex;
+		});
+
+		// TOTD
+
+		// Server side version.
+		//$.get("http://www.sixist.co.uk/cgi-bin/stime.pl?"+$.now(), function(data) {
+		//	UpdateTotD(data, SongArrayIndex, SongArray, FilenameArray);
+		//});
+
+		var timeurl= "http://" + window.location.hostname + "/cgi-bin/stime.pl";
+		//alert(timeurl);
+		$.ajax({
+		  url: timeurl,
+		  success: function(data) {
+			//alert(data);
+			UpdateTotD(data, SongArrayIndex, SongArray, FilenameArray);
+		  cache: false
+		  },
+		  error: function(xmlhttp, textStatus, errorThrown) { 
+			if (xmlhttp.status == 0) {
+			  alert('Check Your Network.');
+			} else if (xmlhttp.status == 404) {
+			  alert('Requested URL not found.');
+			} else if (xmlhttp.status == 500) {
+			  alert('Internal Server Error.');
+			}  else {
+			   alert('Unknown Error.\n' + xmlhttp.responseText);
+			}     
+		  }
+		});	
 		
-		FilenameArray[SongArrayIndex] = filename;
-		SongArray[SongArrayIndex] = songText;
-		++SongArrayIndex;
-	});
-
-	// TOTD
-
-	// Server side version.
-	//$.get("http://www.sixist.co.uk/cgi-bin/stime.pl?"+$.now(), function(data) {
-	//	UpdateTotD(data, SongArrayIndex, SongArray, FilenameArray);
-	//});
-
-	var timeurl= "http://" + window.location.hostname + "/cgi-bin/stime.pl";
-	//alert(timeurl);
-	$.ajax({
-	  url: timeurl,
-	  success: function(data) {
-		//alert(data);
-		UpdateTotD(data, SongArrayIndex, SongArray, FilenameArray);
-	  cache: false
-	  },
-	  error: function(xmlhttp, textStatus, errorThrown) { 
-		if (xmlhttp.status == 0) {
-		  alert('Check Your Network.');
-		} else if (xmlhttp.status == 404) {
-		  alert('Requested URL not found.');
-		} else if (xmlhttp.status == 500) {
-		  alert('Internal Server Error.');
-		}  else {
-		   alert('Unknown Error.\n' + xmlhttp.responseText);
-		}     
-	  }
-	});	
-	
-	/*	Client Side Version
-	when = new Date();
-	Math.seedrandom(when.toLocaleDateString());
-	var randomSongIndex= Math.floor((Math.random()*SongArrayIndex)+1);
-	var a = document.createElement('a');
-	var linkText = document.createTextNode(SongArray[randomSongIndex]);
-	a.appendChild(linkText);
-	a.title = "Track of the day, " + when.toLocaleDateString();
-	a.href = "download/scores/" + FilenameArray[randomSongIndex];
-	totd.appendChild(a);
-	        
-       totd.appendChild(document.createElement("br"));
-	*/	
+		/*	Client Side Version
+		when = new Date();
+		Math.seedrandom(when.toLocaleDateString());
+		var randomSongIndex= Math.floor((Math.random()*SongArrayIndex)+1);
+		var a = document.createElement('a');
+		var linkText = document.createTextNode(SongArray[randomSongIndex]);
+		a.appendChild(linkText);
+		a.title = "Track of the day, " + when.toLocaleDateString();
+		a.href = "download/scores/" + FilenameArray[randomSongIndex];
+		totd.appendChild(a);
+				
+		   totd.appendChild(document.createElement("br"));
+		*/	
     }
     else if (xmlhttp.readyState == 4) {
         listMsg.innerText = "Unable to process list";
