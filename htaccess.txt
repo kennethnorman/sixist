@@ -1,0 +1,5 @@
+AddType video/mp4 m4v
+RewriteRule ^([^\.]+ndex)$ $1.html [NC,L]
+RewriteRule ^([^\.]+bout)$ $1.html [NC,L]
+RewriteRule ^([^\.]+ranscriptions)$ $1.html [NC,L]
+#RewriteRule ^([^\.]+)$ $1.html [NC,L]
